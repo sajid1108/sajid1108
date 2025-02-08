@@ -5,10 +5,10 @@
 </div>
 
 ## 🌟 My Skills
-[![My Skills](https://skillicons.dev/icons?i=html,css,js)](#)
+[![My Skills](https://skillicons.dev/icons?i=html,css,js,php,react,tailwind,laravel)](#)
 
 ## 📊 GitHub Stats & Streak
 <p align="center">
   <img src="https://github-readme-streak-stats.herokuapp.com/?user={{sajid1108}}&theme=radical" alt="GitHub Streak" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username={{sajid1108}}&layout=compact&theme=radical" alt="Top Languages" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=sajid1108&layout=compact&theme=radical" alt="Top Languages" />
 </p>
