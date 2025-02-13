@@ -5,11 +5,17 @@
 </div>
 
 ## 🌟 My Skills
+
 [![My Skills](https://skillicons.dev/icons?i=html,css,js,php,react,tailwind,laravel)](#)
 
 ## 📊 My Language Percentage
+
 <p align="start">
   <img src="https://github-readme-stats.vercel.app/api/top-langs?username=sajid1108&layout=compact&theme=radical" alt="Top Languages" />
 </p>
 
-
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sajid1108/sajid1108/output/github-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/sajid1108/sajid1108/output/github-snake.svg" />
+  <img alt="github-snake" src="https://raw.githubusercontent.com/sajid1108/sajid1108/output/github-snake.svg" />
+</picture>
