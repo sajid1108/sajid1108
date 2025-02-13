@@ -13,7 +13,4 @@
   <img src="https://github-readme-stats.vercel.app/api/top-langs?username=sajid1108&layout=compact&theme=radical" alt="Top Languages" />
 </p>
 
-<p align="center">
-    <img width="100%" loading="lazy" src="https://github.com/SamirPaulb/SamirPaulb/blob/main/assets/rainbow-superthin.webp">
-</p>
 
