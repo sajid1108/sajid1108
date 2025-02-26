@@ -6,7 +6,7 @@
 
 ## 🌟 My Skills
 
-[![My Skills](https://skillicons.dev/icons?i=html,css,js,php,react,tailwind,laravel)](#)
+[![My Skills](https://skillicons.dev/icons?i=typescript,next,react,tailwind)](#)
 
 ## 📊 My Language Percentage
 
