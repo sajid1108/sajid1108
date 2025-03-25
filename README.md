@@ -4,10 +4,6 @@
   <img src="https://i.pinimg.com/originals/e1/7a/b9/e17ab9681bec36303a67cd0e13a7b170.gif" alt="Profile GIF" style="position: absolute; top: 25%; left: 25%; width: 50vw; height: auto; transform: translate(-25%, -25%)"/>
 </div>
 
-## 🌟 My Skills
-
-[![My Skills](https://skillicons.dev/icons?i=typescript,next,react,tailwind)](#)
-
 ## 📊 My Language Percentage
 
 <p align="start">
