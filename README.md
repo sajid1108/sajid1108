@@ -33,7 +33,9 @@ Co-author of a published IEEE paper on ensemble learning for predictive modeling
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/SQL-4479A1?style=flat&logo=postgresql&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat&logo=powerbi&logoColor=black)
@@ -48,17 +50,23 @@ Co-author of a published IEEE paper on ensemble learning for predictive modeling
 Multi-model CNN ensemble (Custom CNN, ResNet18, AlexNet) cross-validates brain stroke detection on CT scans. Diagnosis is decided **deterministically** via majority vote; Groq acts as a "virtual neurologist," turning the fixed result into a structured clinical report in under 2 seconds. Grad-CAM overlays give visual, explainable evidence for every prediction.
 `Python` `PyTorch` `FastAPI` `Next.js` `Docker` `Groq`
 
-**🌕 Autonomous Lunar Navigation Stack (Safety-Critical AI)**
+**🌕 [Autonomous Lunar Navigation Stack (Safety-Critical AI)](https://github.com/sajid1108/Lunar-Navigation-System)**
 Hybrid pipeline combining SRResNet (super-resolution for low-visibility enhancement) and U-Net (risk segmentation), reaching 92% accuracy in GPS-denied zones. A deterministic, physics-based A* planner using Sobel gradient filters mathematically blocks unsafe trajectories — zero-hallucination safety by design. Real-time 3D command dashboard built with React.js + Three.js, served by FastAPI.
 `PyTorch` `FastAPI` `React.js` `Three.js` `A*`
 
-**📊 Real-Time Data Ingestion Pipeline & Dashboard**
+**📊 [Real-Time Data Ingestion Pipeline & Dashboard](https://github.com/sajid1108/weather-dashboard)**
 Live JSON ingestion pipeline for 50+ cities via Python/M Query, feeding interactive Power BI dashboards tracking AQI, temperature, humidity, and wind in real time.
 `Power BI` `Python` `APIs`
 
-**📄 Machine Learning-based IPL Score Predictor** — *Published, IEEE ASSIC 2025*
+**📄 [Machine Learning-based IPL Score Predictor](https://github.com/sajid1108/cricket-score-predictor)** — *Published, IEEE ASSIC 2025*
 Ensemble learning (XGBoost, Random Forest) + SVM to minimize RMSE on score prediction, with EDA-driven feature validation and KNN-based accuracy checks on unseen data.
 `Python` `XGBoost` `Scikit-Learn`
+
+---
+
+### Other Projects
+
+- **[gemini-text-summarizer](https://github.com/sajid1108/gemini-text-summarizer)** — AI text summarizer & sentiment analyzer built with Streamlit, powered by the Google Gemini API.
 
 ---
 
