@@ -1,0 +1,69 @@
+<div align="center">
+
+# Sayed Sajid Ali
+
+**Agentic AI & Deep Learning | Final-Year CSE @ KIIT, Bhubaneswar**
+
+Building AI systems that don't just predict — they explain themselves.
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/sayed-sajid-ali)
+[![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:alisajidsayed888@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/sajid1108)
+
+</div>
+
+---
+
+### About Me
+
+Final-year Computer Science student working at the intersection of **Generative AI, Agentic Workflows, and Explainable AI (XAI)**. I like building systems where an ML model's output isn't the end of the pipeline — it's the input to a deterministic decision layer, and then to an LLM that explains *why*, in language a human can trust.
+
+Co-author of a published IEEE paper on ensemble learning for predictive modeling.
+
+- 🔭 Currently building agentic pipelines that pair deterministic decision logic with LLM-generated explanations
+- 🧠 Deep interest in XAI (Grad-CAM, SHAP-style reasoning) — a model's confidence should come with a *reason*
+- 🌱 Learning: safety-critical autonomous systems, real-time 3D visualization
+- 📫 Reach me at **alisajidsayed888@gmail.com**
+
+---
+
+### Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat&logo=powerbi&logoColor=black)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
+
+---
+
+### Featured Projects
+
+**🧠 [Agentic AI Decision Support System — Brain Stroke Analysis](https://github.com/sajid1108/brain-stroke-agent)**
+Multi-model CNN ensemble (Custom CNN, ResNet18, AlexNet) cross-validates brain stroke detection on CT scans. Diagnosis is decided **deterministically** via majority vote; Groq acts as a "virtual neurologist," turning the fixed result into a structured clinical report in under 2 seconds. Grad-CAM overlays give visual, explainable evidence for every prediction.
+`Python` `PyTorch` `FastAPI` `Next.js` `Docker` `Groq`
+
+**🌕 Autonomous Lunar Navigation Stack (Safety-Critical AI)**
+Hybrid pipeline combining SRResNet (super-resolution for low-visibility enhancement) and U-Net (risk segmentation), reaching 92% accuracy in GPS-denied zones. A deterministic, physics-based A* planner using Sobel gradient filters mathematically blocks unsafe trajectories — zero-hallucination safety by design. Real-time 3D command dashboard built with React.js + Three.js, served by FastAPI.
+`PyTorch` `FastAPI` `React.js` `Three.js` `A*`
+
+**📊 Real-Time Data Ingestion Pipeline & Dashboard**
+Live JSON ingestion pipeline for 50+ cities via Python/M Query, feeding interactive Power BI dashboards tracking AQI, temperature, humidity, and wind in real time.
+`Power BI` `Python` `APIs`
+
+**📄 Machine Learning-based IPL Score Predictor** — *Published, IEEE ASSIC 2025*
+Ensemble learning (XGBoost, Random Forest) + SVM to minimize RMSE on score prediction, with EDA-driven feature validation and KNN-based accuracy checks on unseen data.
+`Python` `XGBoost` `Scikit-Learn`
+
+---
+
+<div align="center">
+
+*Open to opportunities in ML Engineering, AI Research, and Agentic AI systems.*
+
+</div>
