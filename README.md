@@ -47,8 +47,8 @@ Co-author of a published IEEE paper on ensemble learning for predictive modeling
 ### Featured Projects
 
 **🌕 [Autonomous Lunar Navigation Stack (Safety-Critical AI)](https://github.com/sajid1108/Lunar-Navigation-System)**
-Hybrid pipeline combining SRResNet (super-resolution for low-visibility enhancement) and U-Net (risk segmentation), reaching 92% accuracy in GPS-denied zones. A deterministic, physics-based A* planner using Sobel gradient filters mathematically blocks unsafe trajectories — zero-hallucination safety by design. Real-time 3D command dashboard built with React.js + Three.js, served by FastAPI.
-`PyTorch` `FastAPI` `React.js` `Three.js` `A*`
+Hybrid pipeline combining SRResNet (super-resolution for low-visibility enhancement) and U-Net (risk segmentation), reaching 92% accuracy in GPS-denied zones. A deterministic, physics-based A* planner using Sobel gradient filters mathematically blocks unsafe trajectories — zero-hallucination safety by design. Real-time 3D command dashboard built with React.js + Vite, served by FastAPI.
+`PyTorch` `FastAPI` `React.js` `Vite` `A*`
 
 **🧠 [Agentic AI Decision Support System — Brain Stroke Analysis](https://github.com/sajid1108/brain-stroke-agent)**
 Multi-model CNN ensemble (Custom CNN, ResNet18, AlexNet) cross-validates brain stroke detection on CT scans. Diagnosis is decided **deterministically** via majority vote; Groq acts as a "virtual neurologist," turning the fixed result into a structured clinical report in under 2 seconds. Grad-CAM overlays give visual, explainable evidence for every prediction.
