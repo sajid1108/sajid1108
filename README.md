@@ -15,7 +15,7 @@
 
 ### About Me
 
-Final-year Computer Science student working at the intersection of **Generative AI, Agentic Workflows, and Explainable AI (XAI)**. I like building systems where an ML model's output isn't the end of the pipeline — it's the input to a deterministic decision layer, and then to an LLM that explains *why*, in language a human can trust.
+Final-year Computer Science student building AI systems where the model's output isn't the final word — it feeds into a deterministic, verifiable layer that decides or acts safely, with the AI's role being to explain, enhance, or reason on top of that. Whether it's an ensemble of CNNs cross-validated by majority vote before an LLM explains the diagnosis, or a physics-based planner that mathematically blocks unsafe paths before deep learning ever gets a vote — I care about AI that's trustworthy by construction, not just by hope.
 
 Co-author of a published IEEE paper on ensemble learning for predictive modeling.
 
@@ -50,7 +50,7 @@ Hybrid pipeline combining SRResNet (super-resolution for low-visibility enhancem
 `PyTorch` `FastAPI` `React.js` `Vite` `A*`
 
 **🧠 [Agentic AI Decision Support System — Brain Stroke Analysis](https://github.com/sajid1108/brain-stroke-agent)**
-Multi-model CNN ensemble (Custom CNN, ResNet18, AlexNet) cross-validates brain stroke detection on CT scans. Diagnosis is decided **deterministically** via majority vote; Groq acts as a "virtual neurologist," turning the fixed result into a structured clinical report in under 2 seconds. Grad-CAM overlays give visual, explainable evidence for every prediction.
+Multi-model CNN ensemble (Custom CNN, ResNet18, AlexNet) cross-validates brain stroke detection on CT scans. Diagnosis is decided deterministically via majority vote; Groq acts as a "virtual neurologist," turning the fixed result into a structured clinical report. Deployed as a full-stack app (FastAPI + Next.js) with sub-15-second end-to-end inference on CPU-only infrastructure. Grad-CAM overlays give visual, explainable evidence for every prediction.
 `Python` `PyTorch` `FastAPI` `Next.js` `Docker` `Groq`
 
 **📊 [Real-Time Data Ingestion Pipeline & Dashboard](https://github.com/sajid1108/weather-dashboard)**
