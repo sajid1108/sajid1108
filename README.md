@@ -15,7 +15,7 @@
 
 ### About Me
 
-Final-year Computer Science student building AI systems where the model's output isn't the final word — it feeds into a deterministic, verifiable layer that decides or acts safely, with the AI's role being to explain, enhance, or reason on top of that. Whether it's an ensemble of CNNs cross-validated by majority vote before an LLM explains the diagnosis, or a physics-based planner that mathematically blocks unsafe paths before deep learning ever gets a vote — I care about AI that's trustworthy by construction, not just by hope.
+Computer Science graduate building AI systems where the model's output isn't the final word — it feeds into a deterministic, verifiable layer that decides or acts safely, with the AI's role being to explain, enhance, or reason on top of that. Whether it's an ensemble of CNNs cross-validated by majority vote before an LLM explains the diagnosis, or a physics-based planner that mathematically blocks unsafe paths before deep learning ever gets a vote — I care about AI that's trustworthy by construction, not just by hope.
 
 Co-author of a published IEEE paper on ensemble learning for predictive modeling.
 
