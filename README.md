@@ -16,7 +16,7 @@
 
 <img src="assets/section-work.svg" width="100%" alt="Selected work" />
 
-<a href="https://github.com/sajid1108/sentinel"><img src="assets/card-sentinel.svg" width="49%" alt="Sentinel: return-abuse detection with cost-weighted decisioning" /></a> <a href="https://github.com/sajid1108/paygate"><img src="assets/card-paygate.svg" width="49%" alt="Paygate: card authorization gateway built around a pure state machine" /></a>
+<a href="https://github.com/sajid1108/sentinel"><img src="assets/card-sentinel.svg" width="49%" alt="AegisShift: return-abuse detection with cost-weighted decisioning" /></a> <a href="https://github.com/sajid1108/paygate"><img src="assets/card-paygate.svg" width="49%" alt="Paygate: card authorization gateway built around a pure state machine" /></a>
 <a href="https://github.com/sajid1108/brain-stroke-agent"><img src="assets/card-brain-stroke-agent.svg" width="49%" alt="Brain Stroke Agent: CNN ensemble diagnosis with Groq-generated clinical reports" /></a> <a href="https://github.com/sajid1108/Lunar-Navigation-System"><img src="assets/card-lunar-navigation-system.svg" width="49%" alt="Lunar Navigation: U-Net hazard segmentation with a physics-based A* planner" /></a>
 <a href="https://github.com/sajid1108/cricket-score-predictor"><img src="assets/card-cricket-score-predictor.svg" width="49%" alt="IPL Score Predictor: published at IEEE ASSIC 2025" /></a>
 

@@ -432,7 +432,7 @@ ABOUT = [
      "on top. Co-author of an IEEE paper on ensemble learning."),
     ("CURRENTLY",
      "Software Engineer Intern at Telit Cinterion (Sep 2026 - present), working on "
-     "backend and applied AI. After hours: Sentinel (cost-weighted fraud decisioning) "
+     "backend and applied AI. After hours: AegisShift (cost-weighted return-abuse decisioning) "
      "and Paygate (a payment-auth state machine)."),
     ("THE CODE",
      "Models predict. Policy decides. The ML stays behind a mask of guardrails, state "
@@ -513,9 +513,9 @@ def build_tile(key, label):
 
 # -------------------------------------------------------- project cards -----
 PROJECTS = [
-    ("sentinel", "01", "SENTINEL",
-     "Return-abuse detection with cost-weighted decisioning. Two calibrated models, "
-     "one deterministic policy engine, guardrails, and a hash-chained audit trail.",
+    ("sentinel", "01", "AEGISSHIFT",
+     "Return-abuse detection that shifts stance per order: allow, prepaid, review or "
+     "block, priced by expected cost. Guardrails and a hash-chained audit trail.",
      "PR-AUC 0.814 WITH GRAPH FEATURES",
      ["PYTHON", "GRAPH ML", "CALIBRATION"]),
     ("paygate", "02", "PAYGATE",
