@@ -3,6 +3,7 @@
 Run from the repo root:  python scripts/build_assets.py
 Everything is deterministic (seeded), so re-running only changes what you edit.
 """
+import math
 import random
 import textwrap
 from pathlib import Path
@@ -116,45 +117,49 @@ def pixel_text(s, x, y, scale, fill, gap=1, extra=""):
 
 
 # ------------------------------------------------------------- the mask -----
-# Original pixel-art metal mask under a hood. Only the left half is drawn; it is
-# mirrored, then the right side is shaded one step darker (light from the left).
-#   H hood  h hood edge  D/M/L/W steel dark->white  G rivet  E eye slit
+# Original pixel-art metal mask: pointed dome, brow ridges with a centre gem,
+# temple spikes, and two long cheek bars over the face (lips and beard show
+# through). Only the left half is drawn; it is mirrored, with the right side
+# shaded a step darker (light from the left).
+#   H hood  h hood edge  D/M/L/W steel dark->white  G gem  E eye slit
 #   S skin  R lips  K mouth  B beard  b beard texture
 MASK_LEFT = [
-    "..........hhhhh",
-    ".......hhhHHHHH",
-    ".....hhHHHHHHHH",
-    "....hHHHHHDDDDD",
-    "...hHHHHDMMLLLL",
-    "...hHHHDMLWWLLL",
-    "..hHHHDMLWLLMMM",
-    "..hHHDMLLLMMMMM",
-    "..hHHDMLMMMMMMM",
-    "..hHDMLMGMMMMMM",
-    "..hHDMLMMMMMMMM",
-    "..hHDMDDDDDDDDD",
-    "..hHDMDEEEEEEED",
-    "..hHDMDEEEEEEED",
-    "..hHDMMDDDDDDDM",
-    "..hHDMLMMMMMMML",
-    "..hHDMLMMMMMMLL",
-    "..hHDMLMGMMMDLL",
-    "..hHHDMLMMMMDDD",
-    "..hHHDMLMMMMMMM",
-    "..hHHDMMDDDDDDD",
-    "..hHHDMDSSSSSSS",
-    "..hHHDMDSSRRRRR",
-    "..hHHDMDSRKKKKK",
-    "..hHHDMDSSRRRRR",
-    "..hHHHDMDBBBBBB",
-    "...hHHDMBBbBBBB",
-    "...hHHHDBBBBBbB",
-    "....hHHHBBBBBBB",
-    ".....hHHHBbBBBB",
-    ".......hHHBBBBB",
-    "..........hHBBB",
+ "..............L",
+ ".............LW",
+ "...........DMLW",
+ ".........DMMLWL",
+ "........DMMLWLL",
+ ".......DMMLLWLM",
+ "......DMMLLWLLM",
+ ".....DMMLLLWLMM",
+ ".....DMMLLLLLMM",
+ "....DMMMLLLLMMM",
+ "...HDMMLLLLMMDG",
+ "..HDMLLWWLLLDGG",
+ "..HDMLLLLLLMMDG",
+ "..HDDMMMMMMMMDL",
+ "LMHDEEEEEEEEDLL",
+ ".MHDEEEEEEEEDLL",
+ "..HDMEEEEEEEDLL",
+ "..HDMMEEEEEDDLL",
+ "..HDMLMDLWMDDLL",
+ "..HDMLMDLWMDLLM",
+ "..HHDMMDLWMDMMM",
+ "..HHHDDDLWMDDDD",
+ "..HHBBBDLWMDSSS",
+ "..hHBBBDLWMDSRR",
+ "..hHBbBDLWMDRKK",
+ "..hHBBBDLWMDSRR",
+ "...hBBbDLWMDBBB",
+ "...hHBBDLWMDBbB",
+ "....hBBDLWMDBBB",
+ ".....hBDLWMDBBb",
+ "......hDLWMDhBB",
+ ".......DLWMD.hh",
+ ".......DLWMD...",
+ ".......DDDDD...",
 ]
-_DARKER = {"W": "L", "L": "M", "M": "D"}
+_DARKER = {"W": "L", "L": "M"}
 MASK = []
 for _row in MASK_LEFT:
     _right = "".join(_DARKER.get(ch, ch) for ch in reversed(_row))
@@ -205,67 +210,214 @@ def write(name, body):
 
 
 # ------------------------------------------------------------- header -------
+# Original pixel sky-dragon (Rayquaza-inspired) wrapped through the pipeline.
+# The body is rasterised from a spline: each cell is shaded by where it sits along
+# the body (plates, seams, gold rings) and across it (lit top, dark belly).
+#   O outline  L/M/D green light->dark  Y gold  F red fin  W claw  E eye  K mouth  R tongue
+DRAGON_COLORS = {"O": "#07080a", "L": "#6fcf97", "M": "#2e8b5c", "D": "#1a553a",
+                 "Y": GOLD, "F": "#d9573f", "W": BONE, "E": GOLD, "K": "#14090a", "R": "#7a2a22"}
+
+DRAGON_HEAD_LEFT = [     # front-facing; left half, mirrored. Bottom-centre joins the neck
+    "OO...........",
+    "OLO..........",
+    "OLLO.........",
+    ".OLMO........",
+    ".OLMMO......O",
+    "..OLMMO....OL",
+    "..OLMMMOOOOLY",
+    "...OMMMLLLLMY",
+    "...OMMMMMMMMY",
+    "..OOMOOOMMMMM",
+    ".OLOMYYOOMMMM",
+    "OLMOMYYEYOMMM",
+    ".OOOMMYYYOMMM",
+    "...OMMMMMMMMM",
+    "....OMMMMMMMM",
+    ".....OMMMMOMM",
+    ".....OFWFFFFF",
+    ".....OFKKKKKK",
+    "......OFKRRRR",
+    "......OFWFFFF",
+    ".......OMMMMM",
+    "........OOOOO",
+]
+DRAGON_HEAD = [row + "".join({"L": "M"}.get(ch, ch) for ch in reversed(row))
+               for row in DRAGON_HEAD_LEFT]
+DRAGON_TAIL = [          # V fin with red trim; bottom-centre joins the body
+    "F.......F",
+    "FF.....FF",
+    "FMF...FMF",
+    ".FMF.FMF.",
+    ".FMMFMMF.",
+    "..FMMMF..",
+    "...OMO...",
+]
+DRAGON_ARM_L = [         # reaches left, claws out
+    "WW.....",
+    ".WOOOO.",
+    "WOMMMMO",
+    ".WODDO.",
+    "..OOO..",
+]
+
+
+def _sprite(rows, x, y, c, flip=False):
+    out = []
+    for r, row in enumerate(rows):
+        row = row[::-1] if flip else row
+        for q, ch in enumerate(row):
+            if ch != ".":
+                cls = ' class="eye"' if ch == "E" else ""
+                out.append(f'<rect{cls} x="{x + q * c}" y="{y + r * c}" width="{c}" height="{c}" '
+                           f'fill="{DRAGON_COLORS[ch]}"/>')
+    return "".join(out)
+
+
+def _spline(points, steps=24):
+    """Catmull-Rom through points, returned as a dense polyline."""
+    pts = [points[0]] + points + [points[-1]]
+    out = []
+    for i in range(1, len(pts) - 2):
+        p0, p1, p2, p3 = pts[i - 1], pts[i], pts[i + 1], pts[i + 2]
+        for s in range(steps):
+            u = s / steps
+            out.append(tuple(
+                0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * u
+                       + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u * u
+                       + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u ** 3)
+                for k in range(2)))
+    out.append(points[-1])
+    return out
+
+
+def dragon(boxes, path, cell=5, radius=21, plate=46):
+    """Returns (behind, front) SVG for the dragon body plus its head, arms and tail."""
+    c = cell
+    poly = _spline(path)
+    seg_s = [0.0]
+    for a, b in zip(poly, poly[1:]):
+        seg_s.append(seg_s[-1] + math.dist(a, b))
+    total = seg_s[-1]
+
+    def in_front(x):
+        for i, (bx, bw) in enumerate(boxes):
+            if bx <= x <= bx + bw:
+                left = x < bx + bw / 2
+                return left if i % 2 == 0 else not left
+        return True
+
+    xs = [p[0] for p in poly]
+    ys = [p[1] for p in poly]
+    behind, front = [], []
+    for gy in range(int((min(ys) - radius - 3 * c) // c), int((max(ys) + radius + c) // c) + 1):
+        for gx in range(int((min(xs) - radius) // c), int((max(xs) + radius) // c) + 1):
+            px, py = gx * c + c / 2, gy * c + c / 2
+            best = None
+            for i, (a, b) in enumerate(zip(poly, poly[1:])):
+                dx, dy = b[0] - a[0], b[1] - a[1]
+                L2 = dx * dx + dy * dy or 1e-9
+                u = max(0.0, min(1.0, ((px - a[0]) * dx + (py - a[1]) * dy) / L2))
+                qx, qy = a[0] + u * dx, a[1] + u * dy
+                d = math.hypot(px - qx, py - qy)
+                if best is None or d < best[0]:
+                    L = math.sqrt(L2)
+                    nx, ny = -dy / L, dx / L          # normal, flipped to point up
+                    if ny > 0:
+                        nx, ny = -nx, -ny
+                    best = (d, seg_s[i] + u * L, (px - qx) * nx + (py - qy) * ny)
+            d, s, off = best
+            R = radius * min(1.0, 0.35 + s / 70)     # taper toward the tail
+            col = None
+            k = s % plate
+            if d <= R:
+                ring = ((k - plate / 2) / (plate * 0.36)) ** 2 + (off / (R * 0.6)) ** 2
+                if R - d < c * 0.9 or k < c * 0.6:
+                    col = "O"                          # outline and thin plate seams
+                elif int(s // plate) % 2 == 1 and abs(ring - 1) < 0.38:
+                    col = "Y"                          # gold oval on alternate plates
+                elif off > R * 0.4:
+                    col = "L"
+                elif off < -R * 0.4:
+                    col = "D"
+                else:
+                    col = "M"
+            elif off > 0 and 40 < s < total - 30:
+                f = s % (plate * 2)                    # swept-back fin on every other seam
+                if f < 3 * c and d <= R + (3 * c - f) * 0.9:
+                    col = "F"
+            if col:
+                rect = (f'<rect x="{gx * c}" y="{gy * c}" width="{c}" height="{c}" '
+                        f'fill="{DRAGON_COLORS[col]}"/>')
+                (front if in_front(px) else behind).append(rect)
+    tx, ty = path[0]
+    front.append(_sprite(DRAGON_TAIL, round(tx - 4.5 * c), round(ty - 7 * c + 2), c))
+    ax, ay = path[-2]                          # arms grow out of the neck
+    front.append(_sprite(DRAGON_ARM_L, round(ax - radius - 4 * c), round(ay - 3 * c), c))
+    front.append(_sprite(DRAGON_ARM_L, round(ax + radius - c), round(ay - 6 * c), c, flip=True))
+    nx, ny = path[-1]
+    front.append(_sprite(DRAGON_HEAD, round(nx - 13 * c), round(ny - 19 * c), c))
+    return "".join(behind), "".join(front)
+
+
 def pipeline(x, y):
-    """MODEL -> POLICY -> ACTION: the model is dimmed (behind the mask), policy decides."""
-    bw, bh, gap = 170, 64, 58
-    boxes = [
+    """MODEL / POLICY / ACTION, with the dragon wrapped through them."""
+    bw, bh, gap = 128, 64, 64
+    specs = [
         ("MODEL", "PREDICTS", STEEL, STEEL_MD, "#0f1113", True),
         ("POLICY", "DECIDES", GOLD, GOLD, "#171306", False),
         ("ACTION", "ACTS", BONE, BONE, "#141414", False),
     ]
-    out = []
-    for i, (label, cap, edge, ink, fill, dashed) in enumerate(boxes):
-        bx = x + i * (bw + gap)
+    boxes = [(x + i * (bw + gap), bw) for i in range(3)]
+    (m0, _), (m1, _), (m2, _) = boxes
+    top, bot = y - 24, y + bh + 24
+    path = [
+        (x - 42, y - 6),                       # tail tip (fin sits above)
+        (x - 30, y + 40),
+        (m0 + bw * 0.25, bot),
+        (m0 + bw * 0.75, bot),
+        (m1 - gap / 2, y + bh / 2),
+        (m1 + bw * 0.25, top),
+        (m1 + bw * 0.75, top),
+        (m2 - gap / 2, y + bh / 2),
+        (m2 + bw * 0.25, bot),
+        (m2 + bw * 0.8, bot),
+        (m2 + bw + 40, y + bh / 2 + 6),
+        (m2 + bw + 56, y - 8),                 # neck top; head sits here
+    ]
+    behind, front = dragon(boxes, path)
+    shapes, labels = [], []
+    for (bx, _), (label, cap, edge, ink, fill, dashed) in zip(boxes, specs):
         dash = ' stroke-dasharray="6 5"' if dashed else ""
         sw = 3 if label == "POLICY" else 2
-        out.append(
+        shapes.append(
             f'<rect x="{bx + sw / 2}" y="{y + sw / 2}" width="{bw - sw}" height="{bh - sw}" '
             f'fill="{fill}" stroke="{edge}" stroke-width="{sw}"{dash}/>'
         )
-        out.append(pixel_text(label, bx + (bw - text_width(label, 3)) // 2, y + (bh - 21) // 2, 3, ink))
-        out.append(pixel_text(cap, bx + (bw - text_width(cap, 2)) // 2, y + bh + 14, 2, MUTED))
-        if i < 2:
-            ax, ay = bx + bw + 8, y + bh // 2 - 2
-            alen = gap - 16
-            out.append(f'<rect x="{ax}" y="{ay}" width="{alen - 8}" height="4" fill="{STEEL}"/>')
-            for k in range(3):  # stepped pixel arrowhead
-                out.append(
-                    f'<rect x="{ax + alen - 8 + k * 4}" y="{ay - 8 + k * 4}" width="4" '
-                    f'height="{20 - k * 8}" fill="{STEEL}"/>'
-                )
-            # a gold packet travelling along the wire
-            out.append(
-                f'<rect class="pkt" style="animation-delay:{i * 1.2}s" x="{ax}" y="{ay}" '
-                f'width="8" height="4" fill="{GOLD}"/>'
-            )
-    return "".join(out)
+        labels.append(pixel_text(label, bx + (bw - text_width(label, 3)) // 2, y + 13, 3, ink))
+        labels.append(pixel_text(cap, bx + (bw - text_width(cap, 2)) // 2, y + 42, 2, MUTED))
+    return behind + "".join(shapes) + front + "".join(labels)
 
 
 def build_header():
-    W, H = 1000, 300
-    s = [svg_open(
-        W, H,
-        ".pkt{animation:pkt 2.4s steps(8) infinite;opacity:0}"
-        "@keyframes pkt{0%{transform:translateX(0);opacity:1}"
-        "50%{transform:translateX(28px);opacity:1}51%,100%{opacity:0}}",
-    )]
+    W, H = 1000, 306
+    s = [svg_open(W, H)]
     s.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
 
     # name
     s.append(pixel_text("SAYED SAJID ALI", 40, 36, 5, BONE))
     s.append(f'<rect class="blink" x="{40 + text_width("SAYED SAJID ALI", 5) + 12}" y="36" width="20" height="35" fill="{GOLD}"/>')
 
-    s.append(pipeline(40, 118))
+    s.append(pipeline(82, 136))
 
     # mask, with a plate behind it
-    px = 8
+    px = 7
     mw, mh = len(MASK[0]) * px, len(MASK) * px
     mx, my = W - mw - 40, (H - mh) // 2
     s.append(f'<rect x="{mx - 12}" y="{my - 12}" width="{mw + 24}" height="{mh + 24}" fill="{PANEL}" stroke="{EDGE}"/>')
     s.append(mask_svg(mx, my, px))
 
     sub = "SWE INTERN @ TELIT CINTERION / BACKEND & APPLIED AI"
-    s.append(pixel_text(sub, 40, 258, 2, STEEL_LT))
+    s.append(pixel_text(sub, 40, 270, 2, STEEL_LT))
     s.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" fill="none" stroke="{EDGE}"/>')
     s.append("</svg>")
     write("header.svg", "".join(s))
