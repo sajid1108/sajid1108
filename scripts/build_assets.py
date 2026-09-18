@@ -116,35 +116,55 @@ def pixel_text(s, x, y, scale, fill, gap=1, extra=""):
 
 
 # ------------------------------------------------------------- the mask -----
-# Original pixel-art metal mask. '.' = transparent.
-MASK = [
-    ".......MMMMMMMM.......",
-    ".....MMLLLLLLLLMM.....",
-    "....MLLLMMMMMMLLLM....",
-    "...MLLMMMMMMMMMMLLM...",
-    "..MLLMMMMMMMMMMMMLLM..",
-    "..MLMMMMMMMMMMMMMMLM..",
-    ".MLMMGMMMMMMMMMMGMMLM.",
-    ".MLMMMMMMMMMMMMMMMMLM.",
-    ".MMDDDDDDDMMDDDDDDDMM.",
-    ".MDKKKKKKDMMDKKKKKKDM.",
-    ".MDKKKKKKDLLDKKKKKKDM.",
-    ".MMDDDDDDMLLMDDDDDDMM.",
-    ".MLMMMMMMMLLMMMMMMMLM.",
-    "..MLMMMMMMLLMMMMMMLM..",
-    "..MLMMMMMDLLDMMMMMLM..",
-    "..MMMMMMDDDDDDMMMMMM..",
-    "..MDDDDDDDDDDDDDDDDM..",
-    "..MDKLKLKLKLKLKLKLDM..",
-    "..MDKLKLKLKLKLKLKLDM..",
-    "...MDKLKLKLKLKLKLDM...",
-    "...MDDDDDDDDDDDDDDM...",
-    "....MMLMMMMMMMMLMM....",
-    ".....MMMGMMMMGMMM.....",
-    "......MMMMMMMMMM......",
+# Original pixel-art metal mask under a hood. Only the left half is drawn; it is
+# mirrored, then the right side is shaded one step darker (light from the left).
+#   H hood  h hood edge  D/M/L/W steel dark->white  G rivet  E eye slit
+#   S skin  R lips  K mouth  B beard  b beard texture
+MASK_LEFT = [
+    "..........hhhhh",
+    ".......hhhHHHHH",
+    ".....hhHHHHHHHH",
+    "....hHHHHHDDDDD",
+    "...hHHHHDMMLLLL",
+    "...hHHHDMLWWLLL",
+    "..hHHHDMLWLLMMM",
+    "..hHHDMLLLMMMMM",
+    "..hHHDMLMMMMMMM",
+    "..hHDMLMGMMMMMM",
+    "..hHDMLMMMMMMMM",
+    "..hHDMDDDDDDDDD",
+    "..hHDMDEEEEEEED",
+    "..hHDMDEEEEEEED",
+    "..hHDMMDDDDDDDM",
+    "..hHDMLMMMMMMML",
+    "..hHDMLMMMMMMLL",
+    "..hHDMLMGMMMDLL",
+    "..hHHDMLMMMMDDD",
+    "..hHHDMLMMMMMMM",
+    "..hHHDMMDDDDDDD",
+    "..hHHDMDSSSSSSS",
+    "..hHHDMDSSRRRRR",
+    "..hHHDMDSRKKKKK",
+    "..hHHDMDSSRRRRR",
+    "..hHHHDMDBBBBBB",
+    "...hHHDMBBbBBBB",
+    "...hHHHDBBBBBbB",
+    "....hHHHBBBBBBB",
+    ".....hHHHBbBBBB",
+    ".......hHHBBBBB",
+    "..........hHBBB",
 ]
-assert all(len(r) == len(MASK[0]) for r in MASK), [len(r) for r in MASK]
-MASK_COLORS = {"K": "#050506", "D": STEEL_DK, "M": STEEL_MD, "L": STEEL_LT, "G": GOLD}
+_DARKER = {"W": "L", "L": "M", "M": "D"}
+MASK = []
+for _row in MASK_LEFT:
+    _right = "".join(_DARKER.get(ch, ch) for ch in reversed(_row))
+    MASK.append(_row + _right)
+assert all(len(r) == 30 for r in MASK)
+MASK_COLORS = {
+    "H": "#1b1e22", "h": "#2c3137", "D": STEEL_DK, "M": STEEL_MD, "L": STEEL_LT,
+    "W": "#eef0f2", "G": GOLD, "E": "#050506", "S": "#6e4b34", "R": "#3e2418",
+    "K": "#050506", "B": "#0f1012", "b": "#30343a",
+}
 
 
 def mask_svg(x, y, px, eye_glow=True):
@@ -153,9 +173,7 @@ def mask_svg(x, y, px, eye_glow=True):
         for c, ch in enumerate(row):
             if ch == ".":
                 continue
-            cls = ""
-            if eye_glow and ch == "K" and 8 <= r <= 10:
-                cls = ' class="eye"'
+            cls = ' class="eye"' if eye_glow and ch == "E" else ""
             out.append(
                 f'<rect{cls} x="{x + c * px}" y="{y + r * px}" width="{px}" '
                 f'height="{px}" fill="{MASK_COLORS[ch]}"/>'
@@ -181,81 +199,73 @@ def svg_open(w, h, extra_style=""):
     )
 
 
-def strip(x, y, w, seed, h=10, cell=6):
-    """Glitchy pixel run used next to headings (template-style)."""
-    rng = random.Random(seed)
-    palette = [STEEL_DK, STEEL, STEEL_MD, STEEL_LT, BONE, GOLD, GOLD_DK, RUST]
-    weights = [5, 5, 4, 3, 2, 3, 2, 1]
-    out = []
-    cx = x
-    while cx < x + w:
-        run = rng.randint(1, 6)
-        col = rng.choices(palette, weights)[0]
-        hh = rng.choice([h, h, h // 2])
-        yy = y + (h - hh)
-        cls = ' class="flk"' if rng.random() < 0.08 else ""
-        delay = f' style="animation-delay:{rng.uniform(0, 4):.2f}s"' if cls else ""
-        rw = min(run * cell, x + w - cx)
-        out.append(f'<rect{cls}{delay} x="{cx}" y="{yy}" width="{rw}" height="{hh}" fill="{col}"/>')
-        cx += rw + (cell if rng.random() < 0.25 else 0)
-    return "".join(out)
-
-
 def write(name, body):
     (OUT / name).write_text(body, encoding="utf-8")
     print(f"wrote assets/{name}  ({len(body) / 1024:.1f} KB)")
 
 
 # ------------------------------------------------------------- header -------
+def pipeline(x, y):
+    """MODEL -> POLICY -> ACTION: the model is dimmed (behind the mask), policy decides."""
+    bw, bh, gap = 170, 64, 58
+    boxes = [
+        ("MODEL", "PREDICTS", STEEL, STEEL_MD, "#0f1113", True),
+        ("POLICY", "DECIDES", GOLD, GOLD, "#171306", False),
+        ("ACTION", "ACTS", BONE, BONE, "#141414", False),
+    ]
+    out = []
+    for i, (label, cap, edge, ink, fill, dashed) in enumerate(boxes):
+        bx = x + i * (bw + gap)
+        dash = ' stroke-dasharray="6 5"' if dashed else ""
+        sw = 3 if label == "POLICY" else 2
+        out.append(
+            f'<rect x="{bx + sw / 2}" y="{y + sw / 2}" width="{bw - sw}" height="{bh - sw}" '
+            f'fill="{fill}" stroke="{edge}" stroke-width="{sw}"{dash}/>'
+        )
+        out.append(pixel_text(label, bx + (bw - text_width(label, 3)) // 2, y + (bh - 21) // 2, 3, ink))
+        out.append(pixel_text(cap, bx + (bw - text_width(cap, 2)) // 2, y + bh + 14, 2, MUTED))
+        if i < 2:
+            ax, ay = bx + bw + 8, y + bh // 2 - 2
+            alen = gap - 16
+            out.append(f'<rect x="{ax}" y="{ay}" width="{alen - 8}" height="4" fill="{STEEL}"/>')
+            for k in range(3):  # stepped pixel arrowhead
+                out.append(
+                    f'<rect x="{ax + alen - 8 + k * 4}" y="{ay - 8 + k * 4}" width="4" '
+                    f'height="{20 - k * 8}" fill="{STEEL}"/>'
+                )
+            # a gold packet travelling along the wire
+            out.append(
+                f'<rect class="pkt" style="animation-delay:{i * 1.2}s" x="{ax}" y="{ay}" '
+                f'width="8" height="4" fill="{GOLD}"/>'
+            )
+    return "".join(out)
+
+
 def build_header():
     W, H = 1000, 300
-    rng = random.Random(1108)
-    s = [svg_open(W, H)]
+    s = [svg_open(
+        W, H,
+        ".pkt{animation:pkt 2.4s steps(8) infinite;opacity:0}"
+        "@keyframes pkt{0%{transform:translateX(0);opacity:1}"
+        "50%{transform:translateX(28px);opacity:1}51%,100%{opacity:0}}",
+    )]
     s.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
-
-    # mosaic band: dense on the left, dissolving toward the mask
-    cell = 12
-    top, rows = 112, 9
-    palette = [STEEL_DK, STEEL, STEEL_MD, STEEL_LT, BONE, GOLD, GOLD_DK, RUST]
-    weights = [9, 8, 6, 3, 2, 2, 2, 1]
-    band = []
-    for r in range(rows):
-        for c in range(W // cell):
-            x = c * cell
-            fade = max(0.0, (x - 430) / 330)          # 0 on the left -> 1 near mask
-            edge = abs(r - rows / 2 + 0.5) / (rows / 2)  # ragged top/bottom
-            if rng.random() < fade * 0.95 + edge * 0.35:
-                continue
-            if x > 760:
-                continue
-            col = rng.choices(palette, weights)[0]
-            cls = ""
-            if col in (GOLD, BONE, STEEL_LT) and rng.random() < 0.35:
-                cls = f' class="flk" style="animation-delay:{rng.uniform(0, 4):.2f}s"'
-            band.append(
-                f'<rect{cls} x="{x}" y="{top + r * cell}" width="{cell}" height="{cell}" fill="{col}"/>'
-            )
-    s.append("".join(band))
-
-    # big bone-coloured blocks (the template's "cut-out" shapes, DOOM-steel)
-    for bx, by, bw, bh in [(504, 136, 36, 60), (540, 172, 48, 36), (612, 124, 24, 24)]:
-        s.append(f'<rect x="{bx}" y="{by}" width="{bw}" height="{bh}" fill="{BONE}"/>')
 
     # name
     s.append(pixel_text("SAYED SAJID ALI", 40, 36, 5, BONE))
     s.append(f'<rect class="blink" x="{40 + text_width("SAYED SAJID ALI", 5) + 12}" y="36" width="20" height="35" fill="{GOLD}"/>')
 
-    # mask, with a soft plate behind it
-    px = 9
+    s.append(pipeline(40, 118))
+
+    # mask, with a plate behind it
+    px = 8
     mw, mh = len(MASK[0]) * px, len(MASK) * px
-    mx, my = W - mw - 48, (H - mh) // 2 - 6
-    s.append(f'<rect x="{mx - 14}" y="{my - 14}" width="{mw + 28}" height="{mh + 28}" fill="{PANEL}" stroke="{EDGE}"/>')
+    mx, my = W - mw - 40, (H - mh) // 2
+    s.append(f'<rect x="{mx - 12}" y="{my - 12}" width="{mw + 24}" height="{mh + 24}" fill="{PANEL}" stroke="{EDGE}"/>')
     s.append(mask_svg(mx, my, px))
 
-    # bottom lines
-    s.append(pixel_text("MODELS PREDICT. POLICY DECIDES.", 40, 250, 2, GOLD))
     sub = "SWE INTERN @ TELIT CINTERION / BACKEND & APPLIED AI"
-    s.append(pixel_text(sub, 40, 272, 2, STEEL_LT))
+    s.append(pixel_text(sub, 40, 258, 2, STEEL_LT))
     s.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" fill="none" stroke="{EDGE}"/>')
     s.append("</svg>")
     write("header.svg", "".join(s))
@@ -305,9 +315,7 @@ def build_about():
         f'<rect width="{W}" height="{H}" fill="url(#scan)"/>'
     )
     for i, (title, lines, by) in enumerate(blocks):
-        tw = text_width(title, heading_scale)
         s.append(pixel_text(title, pad, by, heading_scale, BONE))
-        s.append(strip(pad + tw + 24, by + 18, W - pad - (pad + tw + 24), seed=40 + i))
         ty = by + 7 * heading_scale + 30
         for j, ln in enumerate(lines):
             s.append(
@@ -325,8 +333,6 @@ def build_section(name, label, seed):
     s = [svg_open(W, H)]
     s.append(f'<rect width="{W}" height="{H}" fill="{PANEL}"/>')
     s.append(pixel_text(label, 40, 18, 4, BONE))
-    tw = text_width(label, 4)
-    s.append(strip(40 + tw + 24, 30, W - 80 - tw - 24, seed=seed))
     s.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" fill="none" stroke="{EDGE}"/>')
     s.append("</svg>")
     write(f"section-{name}.svg", "".join(s))
@@ -397,7 +403,6 @@ def build_card(slug, num, title, desc, metric, tags):
     s.append(f'<rect x="0" y="0" width="{24 + len(slug) * 3}" height="4" fill="{GOLD}"/>')
     s.append(pixel_text(num, 28, 28, 2, GOLD))
     s.append(pixel_text(title, 28, 50, 4, BONE))
-    s.append(strip(28, 92, 120, seed=sum(map(ord, slug)), h=6, cell=4))
     for j, ln in enumerate(textwrap.wrap(desc, 54)):
         s.append(
             f'<text x="28" y="{126 + j * 20}" fill="{TEXT}" font-family="{MONO}" '
@@ -432,7 +437,6 @@ def build_footer():
     s.append(mask_svg(40, (H - len(MASK) * px) // 2, px, eye_glow=True))
     s.append(pixel_text("ALL CAPS. NO HALLUCINATIONS.", 40 + mw + 28, 38, 3, BONE))
     s.append(pixel_text("SAJID1108 / BUILT BEHIND THE MASK", 40 + mw + 28, 76, 2, MUTED))
-    s.append(strip(W - 260, 56, 220, seed=99))
     s.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" fill="none" stroke="{EDGE}"/>')
     s.append("</svg>")
     write("footer.svg", "".join(s))
