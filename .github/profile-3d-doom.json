@@ -1,0 +1,11 @@
+{
+  "type": "normal",
+  "fileName": "profile-doom.svg",
+  "backgroundColor": "#0b0c0e",
+  "foregroundColor": "#c9ced4",
+  "strongColor": "#e6e1d6",
+  "weakColor": "#7b828b",
+  "radarColor": "#d4a017",
+  "growingAnimation": true,
+  "contribColors": ["#1c1f23", "#4a3a0e", "#8a6a12", "#b8870f", "#e0b030"]
+}
