@@ -432,9 +432,8 @@ ABOUT = [
      "on top. Co-author of an IEEE paper on ensemble learning."),
     ("CURRENTLY",
      "Software Engineer Intern at Telit Cinterion (Sep 2026 - present), working on "
-     "backend and applied AI. After hours: Sentinel (cost-weighted fraud decisioning), "
-     "Paygate (a payment-auth state machine) and RAG Sentinel (retrieval that abstains "
-     "instead of hallucinating)."),
+     "backend and applied AI. After hours: Sentinel (cost-weighted fraud decisioning) "
+     "and Paygate (a payment-auth state machine)."),
     ("THE CODE",
      "Models predict. Policy decides. The ML stays behind a mask of guardrails, state "
      "machines and hash-chained audit trails, and a model's confidence has to come with "
@@ -518,28 +517,23 @@ PROJECTS = [
      "Return-abuse detection with cost-weighted decisioning. Two calibrated models, "
      "one deterministic policy engine, guardrails, and a hash-chained audit trail.",
      "PR-AUC 0.814 WITH GRAPH FEATURES",
-     ["PYTHON", "TYPESCRIPT", "GRAPH ML"]),
+     ["PYTHON", "GRAPH ML", "CALIBRATION"]),
     ("paygate", "02", "PAYGATE",
      "Card authorization gateway built around one pure state machine, for when the "
      "issuer goes silent mid-auth. Idempotent retries, reconciliation, property tests.",
      "APPLY(STATE, EVENT) -> STATE",
      ["PYTHON", "HYPOTHESIS", "FSM"]),
-    ("rag-sentinel", "03", "RAG SENTINEL",
-     "Self-healing RAG on LangGraph. Verifies every answer against retrieved context, "
-     "reformulates the query on failure, and abstains rather than hallucinate.",
-     "ABSTAINS. NEVER GUESSES.",
-     ["PYTHON", "LANGGRAPH", "LLM"]),
-    ("brain-stroke-agent", "04", "STROKE AGENT",
+    ("brain-stroke-agent", "03", "STROKE AGENT",
      "3-CNN ensemble decides by majority vote on CT scans; Llama 3.3 70B via Groq "
      "writes the clinical report. Grad-CAM evidence for every prediction.",
      "< 15S END-TO-END ON CPU",
-     ["PYTORCH", "FASTAPI", "NEXT.JS"]),
-    ("Lunar-Navigation-System", "05", "LUNAR NAV",
+     ["PYTORCH", "GRAD-CAM", "LLAMA 3.3"]),
+    ("Lunar-Navigation-System", "04", "LUNAR NAV",
      "SRResNet super-resolution + U-Net hazard segmentation. A physics-based A* "
      "planner vetoes unsafe paths. Real-time 3D command dashboard.",
      "92% ACCURACY, GPS-DENIED",
-     ["PYTORCH", "FASTAPI", "THREE.JS"]),
-    ("cricket-score-predictor", "06", "IPL PREDICTOR",
+     ["PYTORCH", "U-NET", "A* SEARCH"]),
+    ("cricket-score-predictor", "05", "IPL PREDICTOR",
      "IPL score prediction with ensemble learning (XGBoost, Random Forest) + SVM, "
      "validated with EDA and KNN checks on unseen data.",
      "PUBLISHED / IEEE ASSIC 2025",
